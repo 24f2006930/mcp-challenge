@@ -21,5 +21,9 @@ async def solve_challenge(ctx: Context) -> str:
     return hashlib.sha256(value.encode()).hexdigest()[:16]
 
 
+security = TransportSecuritySettings(
+    enable_dns_rebinding_protection=False
+)
 
+app = mcp.streamable_http_app(transport_security=security)
 
