@@ -11,8 +11,8 @@ mcp = FastMCP("Exam MCP")
 async def solve_challenge(ctx: Context) -> str:
     """Solve the current exam challenge from the HTTP request headers."""
 
-    headers = ctx.headers or {}
-    challenge = headers.get("x-exam-challenge")
+    request = ctx.request_context.request
+    challenge = request.headers.get("x-exam-challenge")
 
     if not challenge:
         raise ValueError("Missing X-Exam-Challenge header")
