@@ -1,5 +1,5 @@
 import hashlib
-from starlette.middleware.trustedhost import TrustedHostMiddleware
+from mcp.server.transport_security import TransportSecuritySettings
 from mcp.server.fastmcp import FastMCP, Context
 
 EMAIL = "24f2006930@ds.study.iitm.ac.in"
@@ -21,5 +21,9 @@ async def solve_challenge(ctx: Context) -> str:
     return hashlib.sha256(value.encode()).hexdigest()[:16]
 
 
-app = mcp.streamable_http_app()
-app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
+security = TransportSecuritySettings(
+    enable_dns_rebinding_protection=False
+)
+
+app = mcp.streamable_http_app(transport_security=security)
+
